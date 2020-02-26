@@ -24,17 +24,6 @@ def MergeSort( arr ):
     return arr
 
 if __name__ == '__main__':
-    def Verify( lst ):
-        print('In: {}'.format(lst))
-        lst=MergeSort(lst)
-        print('Out: {}'.format(lst))
-        for i in range(1,len(lst)):
-            if lst[i] < lst[i-1]:
-                print('FAIL')
-                return
-        print('PASS')
-
-    lst=[5,0,1,6,4,8,3,9,2,7,10]
-    Verify(lst)
-
-
+    import TestSort
+    
+    TestSort.TestSort(MergeSort)
