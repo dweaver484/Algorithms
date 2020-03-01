@@ -15,9 +15,10 @@ def TestSort( sortFunc, numRuns=1, lst=None ):
     print('In:  {}'.format(lst))
     execTimes = []
     for i in range(numRuns):
+        arr = lst[:] # Make a fresh copy
         gc.disable()
         ts=time.time()
-        result = sortFunc(lst[:])
+        result = sortFunc(arr)
         te=time.time()
         gc.enable()
         execTimes.append(te-ts)
