@@ -13,7 +13,8 @@ def CompareSorts( sortFuncs, numRuns=10, lst=None):
 if __name__ == '__main__':
     import SelectSort as ss
     import InsertionSort as ins
+    import ShellSort as shs
     import MergeSort as ms
 
-    CompareSorts([ss.SelectSort, ins.InsertionSort, ms.MergeSort], 50)
+    CompareSorts([ss.SelectSort, ins.InsertionSort, shs.ShellSort, ms.MergeSort], 50)
 
