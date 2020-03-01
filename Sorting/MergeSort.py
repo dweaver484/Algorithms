@@ -1,12 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 def MergeSort( arr ):
     if len(arr) > 1:
         mid = int(len(arr) / 2)
-        l = arr[:mid]
-        r = arr[mid:]
-        l = MergeSort(l)
-        r = MergeSort(r)
+        l = MergeSort(arr[:mid])
+        r = MergeSort(arr[mid:])
         i,j,k = 0,0,0
         while i < len(l) and j < len(r):
             if l[i] <= r[j]:
