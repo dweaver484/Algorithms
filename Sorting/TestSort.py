@@ -3,15 +3,19 @@ import time
 import random
 import statistics as stats
 
+NUM_RUNS = 5
+TEST_SIZE = 100
+VALUE_RANGE = 2 * TEST_SIZE
+
 def VerifySort( lst ):
     for i in range(1,len(lst)):
         if lst[i] < lst[i-1]:
             return False
     return True
 
-def TestSort( sortFunc, numRuns=1, lst=None ):
+def TestSort( sortFunc, numRuns=NUM_RUNS, lst=None ):
     if lst is None:
-        lst = random.sample(range(0,50),20)
+        lst = random.sample(range(0,VALUE_RANGE),TEST_SIZE)
     print('In:  {}'.format(lst))
     execTimes = []
     for i in range(numRuns):
@@ -24,7 +28,7 @@ def TestSort( sortFunc, numRuns=1, lst=None ):
         execTimes.append(te-ts)
         if not VerifySort(result):
             print('Out: {}'.format(result))
-            print('FAIL')
+            print('******** FAIL *********')
             break;
     else:
         print('Out: {}'.format(result))
