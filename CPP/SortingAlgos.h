@@ -21,3 +21,10 @@ public:
     virtual void Sort( vector<int> & v ); 
 };
 
+class MergeSort : public SortBase {
+public:
+    MergeSort() : SortBase("MergeSort") {}
+    virtual void Sort( vector<int> & v ); 
+};
+
+

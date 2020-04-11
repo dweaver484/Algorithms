@@ -14,7 +14,8 @@ void MergeSort( vector<int> & v ) {
     MergeSort(v1);
     MergeSort(v2);
     // merge the arrays
-    // This is actually SLOWER (only tested with small array): merge(v1.begin(), v1.end(), v2.begin(), v2.end(), v.begin());
+    // This is actually FASTER than using std::merge() (only tested with small array): merge(v1.begin(), v1.end(), v2.begin(), v2.end(), v.begin());
+    // Using array indexing is also a little FASTER than using iterators (again only tested for small array [20]).
     int i = 0;
     int j = 0;
     int k = 0;
