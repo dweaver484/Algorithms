@@ -10,14 +10,14 @@
 
 using namespace std;
 
-void PrintVector( string msg, vector<int> v ) {
+void PrintVector( string msg, vector<long> v ) {
     cout << msg;
     for( auto & i : v ) cout << i << " ";
     cout << endl;
 }
 
-void VerifySort( vector<int> v ) {
-    for( int i = 1; i < v.size(); ++i ) {
+void VerifySort( vector<long> v ) {
+    for( long i = 1; i < v.size(); ++i ) {
         if( v[i-1] > v[i] ) {
             cout << "FAILED" << endl;
             return;
@@ -26,9 +26,9 @@ void VerifySort( vector<int> v ) {
     cout << "PASSED" << endl;
 }
 
-vector<int> GenerateTestData( long num ) {
-    vector<int> v(num);
-    int sampleSize = num;
+vector<long> GenerateTestData( long num ) {
+    vector<long> v(num);
+    long sampleSize = num;
     while( num-- ) {
         v[num] = rand() / (RAND_MAX / sampleSize);
     }
@@ -50,10 +50,12 @@ int main(int argc, char* argv[])
         make_shared<InsertSort>(),
         make_shared<ShellSort>(), 
         make_shared<MergeSort>(), 
+        make_shared<QuickSort>(), 
     };
-    //vector<int> v = {20, 1, 19, 2, 18, 3, 17, 4, 16, 5, 15, 6, 14, 7, 13, 8, 12, 9, 11, 10};
-    vector<int> v = GenerateTestData(numElements);
-    vector<int> test;
+    //vector<long> v = {20, 1, 19, 2, 18, 3, 17, 4, 16, 5, 15, 6, 14, 7, 13, 8, 12, 9, 11, 10};
+    vector<long> v = GenerateTestData(numElements);
+    vector<long> test;
+    cout << "numElements = " << numElements << ", numRuns = " << numRuns << endl;
     if(numElements <= 200) PrintVector( "\nIN: ", v);
     while( numRuns-- > 0 ) {
         for( auto pSA : vSA ) {
