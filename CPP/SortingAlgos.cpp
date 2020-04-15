@@ -1,4 +1,5 @@
 #include "SortingAlgos.h"
+#include <iostream>
 
 using namespace std;
 
@@ -71,9 +72,8 @@ void MergeSort::Sort( vector<long> & v ) {
     }
 }
 
-void QuickSort::Qsort( vector<long> & v, size_t start, size_t end ) {
+void QuickSort::Qsort( vector<long> & v, long start, long end ) {
     if( start >= end ) return;
-    
     long i = start;
     long j = end + 1;
     long piv = v[start];

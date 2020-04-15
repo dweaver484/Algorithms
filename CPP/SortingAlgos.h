@@ -30,8 +30,8 @@ public:
 class QuickSort : public SortBase {
 public:
     QuickSort() : SortBase("QuickSort") {}
-    virtual void Sort( vector<long> & v ) { Qsort( v, 0, v.size()-1); } 
+    virtual void Sort( vector<long> & v ) { Qsort( v, 0, static_cast<long>(v.size()-1)); } 
 private:
-    void Qsort( vector<long> & v, size_t begin, size_t end);
+    void Qsort( vector<long> & v, long begin, long end);
 };
 

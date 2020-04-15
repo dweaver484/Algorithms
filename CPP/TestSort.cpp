@@ -23,7 +23,7 @@ void VerifySort( vector<long> v ) {
             return;
         }
     }
-    cout << "PASSED" << endl;
+    //cout << "PASSED" << endl;
 }
 
 vector<long> GenerateTestData( long num ) {
@@ -53,11 +53,11 @@ int main(int argc, char* argv[])
         make_shared<QuickSort>(), 
     };
     //vector<long> v = {20, 1, 19, 2, 18, 3, 17, 4, 16, 5, 15, 6, 14, 7, 13, 8, 12, 9, 11, 10};
-    vector<long> v = GenerateTestData(numElements);
-    vector<long> test;
     cout << "numElements = " << numElements << ", numRuns = " << numRuns << endl;
-    if(numElements <= 200) PrintVector( "\nIN: ", v);
     while( numRuns-- > 0 ) {
+        vector<long> v = GenerateTestData(numElements);
+        if(numElements <= 200) PrintVector( "\nIN: ", v);
+        vector<long> test;
         for( auto pSA : vSA ) {
             test = v; // Make a copy
             //PrintVector( "\nIN: ", test );
@@ -67,8 +67,13 @@ int main(int argc, char* argv[])
             //PrintVector( "OUT: ", test );
             VerifySort( test );
             auto duration = chrono::duration_cast<chrono::nanoseconds>(te - ts);
-            cout << setw(12) << pSA->GetName() << " execution time:" << setw(15) << duration.count() << " nS" << endl;
+            pSA->AddTime(duration);
+            //cout << setw(12) << pSA->GetName() << " execution time:" << setw(15) << duration.count() << " nS" << endl;
         }
+    }
+    cout << setw(12) << "Sort" <<  setw(15) << "Min" << setw(15) << "Max" << setw(15) << "Avg" << endl;
+    for( auto pSA : vSA ) {
+        cout << setw(12) << pSA->GetName() << setw(15) << pSA->GetMin() << setw(15) << pSA->GetMax() << setw(15) << pSA->GetAvg() << " nS" << endl;
     }
     return 0;
 }
