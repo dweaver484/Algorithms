@@ -35,3 +35,20 @@ private:
     void Qsort( vector<long> & v, long begin, long end);
 };
 
+class QuickSort2 : public SortBase {
+public:
+    QuickSort2() : SortBase("QuickSort2") {}
+    virtual void Sort( vector<long> & v ) { Qsort( v, 0, static_cast<long>(v.size()-1)); } 
+private:
+    void Qsort( vector<long> & v, long begin, long end);
+};
+
+class QuickSort3Way : public SortBase {
+public:
+    QuickSort3Way() : SortBase("QuickSort3Way") {}
+    virtual void Sort( vector<long> & v ) { Qsort( v, 0, static_cast<long>(v.size()-1)); } 
+private:
+    void Qsort( vector<long> & v, long begin, long end);
+};
+
+

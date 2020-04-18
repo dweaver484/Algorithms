@@ -26,11 +26,10 @@ void VerifySort( vector<long> v ) {
     //cout << "PASSED" << endl;
 }
 
-vector<long> GenerateTestData( long num ) {
+vector<long> GenerateTestData( long num, long numKeys ) {
     vector<long> v(num);
-    long sampleSize = num;
     while( num-- ) {
-        v[num] = rand() / (RAND_MAX / sampleSize);
+        v[num] = rand() / (RAND_MAX / numKeys);
     }
     return v;
 }
@@ -39,23 +38,27 @@ int main(int argc, char* argv[])
 {
     long numElements = 1000;
     long numRuns = 1;
-    long* parms[] = {&numElements, &numRuns};
+    long numKeys = -1;
+    long* parms[] = {&numElements, &numRuns, &numKeys};
     for(int i = 1; i < argc; ++i) {
         stringstream ss(argv[i]);
         ss >> *parms[i-1];
     }
+    if(numKeys == -1) numKeys = numElements;
     cout << endl;
     vector<shared_ptr<SortBase>> vSA { 
-        make_shared<SelectSort>(),
-        make_shared<InsertSort>(),
+        //make_shared<SelectSort>(),
+        //make_shared<InsertSort>(),
         make_shared<ShellSort>(), 
-        make_shared<MergeSort>(), 
+        //make_shared<MergeSort>(), 
         make_shared<QuickSort>(), 
+        make_shared<QuickSort2>(), 
+        make_shared<QuickSort3Way>(), 
     };
     //vector<long> v = {20, 1, 19, 2, 18, 3, 17, 4, 16, 5, 15, 6, 14, 7, 13, 8, 12, 9, 11, 10};
-    cout << "numElements = " << numElements << ", numRuns = " << numRuns << endl;
+    cout << "numElements = " << numElements << ", numRuns = " << numRuns << ", numKeys = " << numKeys << endl;
     while( numRuns-- > 0 ) {
-        vector<long> v = GenerateTestData(numElements);
+        vector<long> v = GenerateTestData(numElements, numKeys);
         if(numElements <= 200) PrintVector( "\nIN: ", v);
         vector<long> test;
         for( auto pSA : vSA ) {
@@ -71,9 +74,9 @@ int main(int argc, char* argv[])
             //cout << setw(12) << pSA->GetName() << " execution time:" << setw(15) << duration.count() << " nS" << endl;
         }
     }
-    cout << setw(12) << "Sort" <<  setw(15) << "Min" << setw(15) << "Max" << setw(15) << "Avg" << endl;
+    cout << setw(15) << "Sort" <<  setw(15) << "Min" << setw(15) << "Max" << setw(15) << "Avg" << endl;
     for( auto pSA : vSA ) {
-        cout << setw(12) << pSA->GetName() << setw(15) << pSA->GetMin() << setw(15) << pSA->GetMax() << setw(15) << pSA->GetAvg() << " nS" << endl;
+        cout << setw(15) << pSA->GetName() << setw(15) << pSA->GetMin() << setw(15) << pSA->GetMax() << setw(15) << pSA->GetAvg() << " nS" << endl;
     }
     return 0;
 }

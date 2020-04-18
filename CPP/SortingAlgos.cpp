@@ -89,4 +89,37 @@ void QuickSort::Qsort( vector<long> & v, long start, long end ) {
     Qsort( v, j+1, end);
 }
 
+// Uses swap instead of tmp variable. Using swap is a little slower than using tmp variable.
+void QuickSort2::Qsort( vector<long> & v, long start, long end ) {
+    if( start >= end ) return;
+    long i = start;
+    long j = end + 1;
+    long piv = v[start];
+    while(true) {
+        while(v[++i] < piv)  if( i >= end ) break;
+        while(v[--j] > piv)  if( j <= start ) break;
+        if( j <= i ) break;
+        swap(v[i], v[j]);
+    }
+    swap(v[start], v[j]);
+    Qsort( v, start, j-1);
+    Qsort( v, j+1, end);
+}
+
+void QuickSort3Way::Qsort( vector<long> & v, long start, long end ) {
+    if( start >= end ) return;
+    long lt = start;
+    long i = start + 1;
+    long gt = end;
+    long piv = v[start];
+    while(i <= gt) {
+        if(v[i] < piv) Exchange(v[i++], v[lt++]);
+        else if(v[i] > piv) Exchange(v[i], v[gt--]);
+        else ++i;
+    } // v[start..lt-1] < piv = v[lt..gt] < v[i..end]
+    Qsort( v, start, lt - 1);
+    Qsort( v, i, end);
+}
+
+
 
