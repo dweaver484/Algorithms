@@ -43,7 +43,36 @@ void ShellSort::Sort( vector<long> & v ) {
     }
 }
 
-void MergeSort::Sort( vector<long> & v ) {
+void MergeSort::MSort( vector<long> & v ) {
+    if( v.size() < 2 ) return;
+    auto mid = v.size()/2;
+    vector<long> v1(v.begin(), v.begin() + mid);
+    vector<long> v2(v.begin() + mid, v.end());
+    MSort(v1);
+    MSort(v2);
+    // merge the arrays
+    // This is actually FASTER than using std::merge() (only tested with small array): merge(v1.begin(), v1.end(), v2.begin(), v2.end(), v.begin());
+    // Using array indexing is also a little FASTER than using iterators (again only tested for small array [20]).
+    long i = 0;
+    long j = 0;
+    long k = 0;
+    while(i < v1.size() && j < v2.size()) {
+        if (!LessThan(v2[j], v1[i])) // v1[i] <= v2[j])
+            v[k++]=v1[i++];
+        else
+            v[k++]=v2[j++];
+    }
+    if(i < v1.size()) {
+        while(i < v1.size())
+            v[k++]=v1[i++];
+    }
+    else {
+        while(j < v2.size())
+            v[k++]=v2[j++];
+    }
+}
+
+void MergeSort2::Sort( vector<long> & v ) {
     if( v.size() < 2 ) return;
     auto mid = v.size()/2;
     vector<long> v1(v.begin(), v.begin() + mid);
@@ -112,6 +141,26 @@ void QuickSort3Way::Qsort( vector<long> & v, long start, long end ) {
     long i = start + 1;
     long gt = end;
     long piv = v[start];
+    long tmp;
+    while(i <= gt) {
+        if(v[i] < piv) {
+            tmp=v[i]; v[i++]=v[lt]; v[lt++]=tmp;
+        }
+        else if(v[i] > piv) {
+            tmp=v[i]; v[i]=v[gt]; v[gt--]=tmp;
+        }
+        else ++i;
+    } // v[start..lt-1] < piv = v[lt..gt] < v[i..end]
+    Qsort( v, start, lt - 1);
+    Qsort( v, i, end);
+}
+
+void QuickSort3Way2::Qsort( vector<long> & v, long start, long end ) {
+    if( start >= end ) return;
+    long lt = start;
+    long i = start + 1;
+    long gt = end;
+    long piv = v[start];
     while(i <= gt) {
         if(v[i] < piv) Exchange(v[i++], v[lt++]);
         else if(v[i] > piv) Exchange(v[i], v[gt--]);
@@ -120,6 +169,5 @@ void QuickSort3Way::Qsort( vector<long> & v, long start, long end ) {
     Qsort( v, start, lt - 1);
     Qsort( v, i, end);
 }
-
 
 

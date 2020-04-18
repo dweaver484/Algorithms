@@ -34,36 +34,30 @@ vector<long> GenerateTestData( long num, long numKeys ) {
     return v;
 }
 
-int main(int argc, char* argv[])
+int runTest(long numElements, long numRuns, long numKeys, vector<long> *pv = nullptr)
 {
-    long numElements = 1000;
-    long numRuns = 1;
-    long numKeys = -1;
-    long* parms[] = {&numElements, &numRuns, &numKeys};
-    for(int i = 1; i < argc; ++i) {
-        stringstream ss(argv[i]);
-        ss >> *parms[i-1];
-    }
     if(numKeys == -1) numKeys = numElements;
     cout << endl;
     vector<shared_ptr<SortBase>> vSA { 
-        //make_shared<SelectSort>(),
-        //make_shared<InsertSort>(),
+        make_shared<SelectSort>(),
+        make_shared<InsertSort>(),
         make_shared<ShellSort>(), 
-        //make_shared<MergeSort>(), 
+        //make_shared<MergeSort>(),  // Recurses on non-virtual method // No observable difference between virtual & non-virtual method
+        make_shared<MergeSort2>(), // Recurses on virtual method     // No observable difference between virtual & non-virtual method
         make_shared<QuickSort>(), 
-        make_shared<QuickSort2>(), 
+        //make_shared<QuickSort2>(), // QuickSort2 uses std::swap() & is actually slower than using tmp variable
         make_shared<QuickSort3Way>(), 
+        //make_shared<QuickSort3Way2>(), // QuickSort3way2 uses std::swap() & is actually slower than using tmp variable
     };
-    //vector<long> v = {20, 1, 19, 2, 18, 3, 17, 4, 16, 5, 15, 6, 14, 7, 13, 8, 12, 9, 11, 10};
+    if( pv ) numElements = pv->size();
     cout << "numElements = " << numElements << ", numRuns = " << numRuns << ", numKeys = " << numKeys << endl;
-    while( numRuns-- > 0 ) {
-        vector<long> v = GenerateTestData(numElements, numKeys);
-        if(numElements <= 200) PrintVector( "\nIN: ", v);
+    for( long runNum=0; runNum < numRuns; ++runNum ) {
+        vector<long> v = pv ? *pv : GenerateTestData(numElements, numKeys);
+        if(runNum == 0 && numElements <= 100) PrintVector( "IN: ", v);
         vector<long> test;
         for( auto pSA : vSA ) {
             test = v; // Make a copy
-            //PrintVector( "\nIN: ", test );
+            //PrintVector( "IN: ", test );
             auto ts = chrono::high_resolution_clock::now();
             pSA->Sort( test );
             auto te = chrono::high_resolution_clock::now();
@@ -78,7 +72,40 @@ int main(int argc, char* argv[])
     for( auto pSA : vSA ) {
         cout << setw(15) << pSA->GetName() << setw(15) << pSA->GetMin() << setw(15) << pSA->GetMax() << setw(15) << pSA->GetAvg() << " nS" << endl;
     }
+    cout << "=============================================================" << endl;
     return 0;
 }
 
+int main(int argc, char* argv[])
+{
+    long numElements = 1000;
+    long numRuns = 1;
+    long numKeys = -1;
+    if(argc > 1) {
+        long* parms[] = {&numElements, &numRuns, &numKeys};
+        for(int i = 1; i < argc; ++i) {
+            stringstream ss(argv[i]);
+            ss >> *parms[i-1];
+        }
+        if(numKeys == -1) numKeys = numElements;
+        runTest(numElements, numRuns, numKeys);
+    }
+    else {
+        runTest(5, 10, -1);
+        runTest(7, 10, -1);
+        runTest(10, 10, -1);
+        runTest(15, 10, -1);
+        runTest(50, 10, -1);
+        runTest(100, 10, -1);
+        runTest(1000, 10, -1);
+        runTest(10000, 10, -1);
+        runTest(100, 10, 2);
+        runTest(100, 10, 5);
+        runTest(100, 10, 10);
+        runTest(10000, 10, 5);
+        runTest(10000, 10, 10);
+        runTest(10000, 10, 100);
+    }
+    return 0;
+}
 

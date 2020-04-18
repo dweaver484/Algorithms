@@ -24,6 +24,14 @@ public:
 class MergeSort : public SortBase {
 public:
     MergeSort() : SortBase("MergeSort") {}
+    virtual void Sort( vector<long> & v ) { MSort(v); }
+private:
+    void MSort( vector<long> &v );
+};
+
+class MergeSort2 : public SortBase {
+public:
+    MergeSort2() : SortBase("MergeSort2") {}
     virtual void Sort( vector<long> & v ); 
 };
 
@@ -46,6 +54,14 @@ private:
 class QuickSort3Way : public SortBase {
 public:
     QuickSort3Way() : SortBase("QuickSort3Way") {}
+    virtual void Sort( vector<long> & v ) { Qsort( v, 0, static_cast<long>(v.size()-1)); } 
+private:
+    void Qsort( vector<long> & v, long begin, long end);
+};
+
+class QuickSort3Way2 : public SortBase {
+public:
+    QuickSort3Way2() : SortBase("QuickSort3Way2") {}
     virtual void Sort( vector<long> & v ) { Qsort( v, 0, static_cast<long>(v.size()-1)); } 
 private:
     void Qsort( vector<long> & v, long begin, long end);
