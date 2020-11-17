@@ -6,8 +6,10 @@ using namespace std;
 
 class SortBase {
     public:
-        SortBase( string name = "" ) : m_name(name) {}
+        SortBase( string name ) : m_name(name) {}
         virtual void Sort( vector<long> & v ) = 0;
+        virtual void Prep( vector<long> &v ) {}
+        virtual void Finish( vector<long> &v ) {}
         void Exchange( long & i, long & j ) { swap( i, j ); }
         bool LessThan( long & i, long & j ) { return i < j; }
         string GetName() { return m_name; }

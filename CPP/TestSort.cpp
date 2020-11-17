@@ -40,14 +40,18 @@ int runTest(long numElements, long numRuns, long numKeys, vector<long> *pv = nul
     cout << endl;
     vector<shared_ptr<SortBase>> vSA { 
         make_shared<SelectSort>(),
-        make_shared<InsertSort>(),
-        make_shared<ShellSort>(), 
+        //make_shared<InsertSort>(),
+        //make_shared<ShellSort>(), 
         //make_shared<MergeSort>(),  // Recurses on non-virtual method // No observable difference between virtual & non-virtual method
-        make_shared<MergeSort2>(), // Recurses on virtual method     // No observable difference between virtual & non-virtual method
+        //make_shared<MergeSort2>(), // Recurses on virtual method     // No observable difference between virtual & non-virtual method
         make_shared<QuickSort>(), 
-        //make_shared<QuickSort2>(), // QuickSort2 uses std::swap() & is actually slower than using tmp variable
-        make_shared<QuickSort3Way>(), 
+        //make_shared<QuickSortS>(), // Uses std::swap() & is actually slower than using tmp variable
+        //make_shared<QuickSortH>(), // HackerRank
+        //make_shared<QuickSortP>(), // Uses std::partition()
+        //make_shared<QuickSort5>(), 
+        //make_shared<QuickSort3Way>(), 
         //make_shared<QuickSort3Way2>(), // QuickSort3way2 uses std::swap() & is actually slower than using tmp variable
+        make_shared<HeapSort>(), 
     };
     if( pv ) numElements = pv->size();
     cout << "numElements = " << numElements << ", numRuns = " << numRuns << ", numKeys = " << numKeys << endl;
@@ -58,9 +62,11 @@ int runTest(long numElements, long numRuns, long numKeys, vector<long> *pv = nul
         for( auto pSA : vSA ) {
             test = v; // Make a copy
             //PrintVector( "IN: ", test );
+            pSA->Prep( test );
             auto ts = chrono::high_resolution_clock::now();
             pSA->Sort( test );
             auto te = chrono::high_resolution_clock::now();
+            pSA->Finish( test );
             //PrintVector( "OUT: ", test );
             VerifySort( test );
             auto duration = chrono::duration_cast<chrono::nanoseconds>(te - ts);
@@ -76,6 +82,9 @@ int runTest(long numElements, long numRuns, long numKeys, vector<long> *pv = nul
     return 0;
 }
 
+//
+// Usage: ./TestSort numElements numRuns numKeys
+//
 int main(int argc, char* argv[])
 {
     long numElements = 1000;
@@ -99,12 +108,12 @@ int main(int argc, char* argv[])
         runTest(100, 10, -1);
         runTest(1000, 10, -1);
         runTest(10000, 10, -1);
-        runTest(100, 10, 2);
-        runTest(100, 10, 5);
-        runTest(100, 10, 10);
-        runTest(10000, 10, 5);
-        runTest(10000, 10, 10);
-        runTest(10000, 10, 100);
+        //runTest(100, 10, 2);
+        //runTest(100, 10, 5);
+        //runTest(100, 10, 10);
+        //runTest(10000, 10, 5);
+        //runTest(10000, 10, 10);
+        //runTest(10000, 10, 100);
     }
     return 0;
 }
