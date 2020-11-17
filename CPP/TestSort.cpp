@@ -39,12 +39,12 @@ int runTest(long numElements, long numRuns, long numKeys, vector<long> *pv = nul
     if(numKeys == -1) numKeys = numElements;
     cout << endl;
     vector<shared_ptr<SortBase>> vSA { 
-        make_shared<SelectSort>(),
+        //make_shared<SelectSort>(),
         //make_shared<InsertSort>(),
         //make_shared<ShellSort>(), 
         //make_shared<MergeSort>(),  // Recurses on non-virtual method // No observable difference between virtual & non-virtual method
         //make_shared<MergeSort2>(), // Recurses on virtual method     // No observable difference between virtual & non-virtual method
-        make_shared<QuickSort>(), 
+        //make_shared<QuickSort>(), 
         //make_shared<QuickSortS>(), // Uses std::swap() & is actually slower than using tmp variable
         //make_shared<QuickSortH>(), // HackerRank
         //make_shared<QuickSortP>(), // Uses std::partition()
@@ -52,6 +52,7 @@ int runTest(long numElements, long numRuns, long numKeys, vector<long> *pv = nul
         //make_shared<QuickSort3Way>(), 
         //make_shared<QuickSort3Way2>(), // QuickSort3way2 uses std::swap() & is actually slower than using tmp variable
         make_shared<HeapSort>(), 
+        make_shared<HeapSort2>(), 
     };
     if( pv ) numElements = pv->size();
     cout << "numElements = " << numElements << ", numRuns = " << numRuns << ", numKeys = " << numKeys << endl;
@@ -100,14 +101,15 @@ int main(int argc, char* argv[])
         runTest(numElements, numRuns, numKeys);
     }
     else {
-        runTest(5, 10, -1);
-        runTest(7, 10, -1);
+        //runTest(5, 10, -1);
+        //runTest(7, 10, -1);
         runTest(10, 10, -1);
         runTest(15, 10, -1);
         runTest(50, 10, -1);
         runTest(100, 10, -1);
         runTest(1000, 10, -1);
         runTest(10000, 10, -1);
+
         //runTest(100, 10, 2);
         //runTest(100, 10, 5);
         //runTest(100, 10, 10);

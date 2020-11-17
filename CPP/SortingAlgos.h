@@ -48,6 +48,38 @@ public:
     }
 };
 
+class HeapSort2 : public SortBase {
+public:
+    HeapSort2() : SortBase("HeapSort2") {}
+    virtual void Sort( vector<long> & v );
+    virtual void Prep( vector<long> & v ) { v.insert(v.begin(),0); }
+    virtual void Finish( vector<long> & v ) { v.erase(v.begin()); }
+    inline void Swim( vector<long> &pq, size_t i ) {
+        size_t j = i/2;
+        while( i > 1 && pq[i] > pq[j] ) {
+            swap(pq[i], pq[j]);
+            i = j;
+            j = i/2;
+        }
+    }
+    inline void Sink( vector<long> &pq, size_t i, size_t n ) {
+        size_t j = 2*i;
+        while( j < n ) {
+            if( j + 1 < n && pq[j] < pq[j+1] ) {
+                ++j;
+            }
+            if( pq[i] < pq[j] ) {
+                swap(pq[i], pq[j]);
+                i=j;
+                j=2*i;
+            }
+            else {
+                break;
+            }
+        }
+    }
+};
+
 class MergeSort : public SortBase {
 public:
     MergeSort() : SortBase("MergeSort") {}

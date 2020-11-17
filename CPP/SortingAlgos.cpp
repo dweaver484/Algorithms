@@ -55,6 +55,17 @@ void HeapSort::Sort( vector<long> & v ) {
     }
 }
     
+void HeapSort2::Sort( vector<long> & v ) {
+    for(auto i=1; i<v.size(); ++i) {
+        Swim(v, i);
+    }
+    auto n = v.size();
+    while(n > 2) {
+        swap(v[1], v[--n]);
+        Sink(v, 1, n);
+    }
+}
+
 void MergeSort::MSort( vector<long> & v ) {
     if( v.size() < 2 ) return;
     auto mid = v.size()/2;
